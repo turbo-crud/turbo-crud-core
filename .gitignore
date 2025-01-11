@@ -1,0 +1,17 @@
+**/.DS_Store
+/node_modules
+/dist
+.nyc_output
+nohup.out
+database.json
+loki.db
+
+posts_
+site
+docs
+
+/coverage/*
+!/coverage/branches.svg
+!/coverage/functions.svg
+!/coverage/lines.svg
+!/coverage/statements.svg

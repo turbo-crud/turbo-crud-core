@@ -1,0 +1,35 @@
+site_name: TurboCrud
+description: A ultra minimalistic headless cms
+home_banner_image_url: >-
+  https://github.com/podcastjs/podcastjs/assets/3322836/0d8bdbf1-78f0-4728-bcf4-6a6a25487dfe
+home_banner_title: Tell Your Story to the World!!
+home_banner_paragraph: >
+  Join with us! Login or Register. Lorem ipsum dolor sit amet, consectetur
+  adipisicing elit. Delectus, ex! 
+base_url: 'https://fuckpress.github.io'
+about_us_paragraph: A site to share our day-to-day about TurboCrud
+phone: + 123 456 789
+
+database:
+  domain: localhost:27017
+  db: TurboCrud
+  user: jane
+  password: changeme
+
+entities:
+- name: Patient
+  icon: ti-user
+  label: Paciente
+  fields:
+  - name: firstName
+    type: string
+    unique: true
+    required: true
+  - name: email
+    type: string
+    unique: true
+    required: true
+  - name: address
+    type: string
+    unique: true
+    required: true

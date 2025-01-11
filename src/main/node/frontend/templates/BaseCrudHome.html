@@ -1,0 +1,47 @@
+<h4 class="c-grey-900 mT-10 mB-30">{{name}}</h4>
+
+<div class="alert alert-light">
+  <button class="btn btn-primary btn-color">New</button>
+</div>
+
+<div class="alert alert-light">
+
+  <div class="row">
+    {{#each fields}}
+      {{#compare type '==' 'string'  }} 
+      <div class="mb-3 col-md-6">
+        <input type="text" class="form-control" id="search_field_{{@root.name}}_{{name}}" placeholder="{{name}}">
+      </div>      
+      {{/compare}}
+    {{/each}}  
+    <div class="">
+      <button id="search_button_{{@root.name}}" class="btn btn-primary btn-color">Search</button>
+    </div>      
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="bgc-white bd bdrs-3 p-20 mB-20">
+      <table id="table_search_result_{{@root.name}}" class="table table-striped table-bordered" cellspacing="0" width="100%">
+        <thead>
+          <tr>
+            {{#each fields}}
+            <th>{{name}}</th>
+            {{/each}}    
+          </tr>        
+        </thead>
+        <tfoot>
+          <tr>
+            {{#each fields}}
+            <th>{{name}}</th>
+            {{/each}}    
+          </tr>
+        </tfoot>
+        <tbody>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
