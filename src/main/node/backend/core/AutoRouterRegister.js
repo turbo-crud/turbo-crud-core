@@ -20,12 +20,37 @@ function AutoRouterRegister() {
       });
 
       expressInstance.post(`/api/${entity.name}/query`, async function (req, res) {
-        var query = models[entity.name].find({}, {_id:0, __v:0});
-        var result = await query.exec();
+
+        if(!req.body || Object.keys(req.body).length === 0){
+          return res.json(badRequest("Search needs at least one parameter"));
+        }
+
+        var clausule = [];
+        for(var queryRawField of req.body){
+            let regex = new RegExp(queryRawField.value,'i');
+            let fieldName = queryRawField.name;
+            let tmp = {};
+            tmp[fieldName] = regex;
+            clausule.push(tmp);
+        }
+
+        var query = { $and: clausule};
+
+        var queryStatement = models[entity.name].find(query, {_id:0, __v:0});
+        var result = await queryStatement.exec();
         res.json(okSeveral(result));
       });      
     }
 
+  }
+
+  function badRequest(message){
+    return {
+      "metadata": {
+          "code": 400100,
+          "message": message || "The request could not be understood by the server due to malformed syntax"
+      } 
+    }
   }
 
   function okSingle(singleResult){

@@ -1,7 +1,8 @@
 <h4 class="c-grey-900 mT-10 mB-30">{{name}}</h4>
 
-<div class="alert alert-light">
+<div class="alert alert-light" id="crud_nav_bar">
   <button class="btn btn-primary btn-color">New</button>
+  <button class="btn btn-primary btn-color">Delete</button>
 </div>
 
 <div class="alert alert-light">
@@ -15,7 +16,7 @@
       {{/compare}}
     {{/each}}  
     <div class="">
-      <button id="search_button_{{@root.name}}" class="btn btn-primary btn-color">Search</button>
+      <button id="search_button_{{@root.name}}" entity-name="{{@root.name}}" class="btn btn-primary btn-color">Search</button>
     </div>      
   </div>
 </div>
@@ -31,13 +32,6 @@
             {{/each}}    
           </tr>        
         </thead>
-        <tfoot>
-          <tr>
-            {{#each fields}}
-            <th>{{name}}</th>
-            {{/each}}    
-          </tr>
-        </tfoot>
         <tbody>
 
         </tbody>

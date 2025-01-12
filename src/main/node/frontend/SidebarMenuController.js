@@ -3,10 +3,15 @@ function SidebarMenuController(){
     this.sidebar;
     this.closeBtn;
     this.searchBtn;
+    this.systemApiClient;
     
-    this.start = async (systemApiClient) => {
+    this.setup = async (systemApiClient) => {
+        this.systemApiClient = systemApiClient;    
+    }
+    
+    this.start = async () => {
 
-        var menuItems = await systemApiClient.getMenuSimpleList();
+        var menuItems = await this.systemApiClient.getUiSettings();
 
         appendMenuItems(menuItems);     
     }
@@ -54,7 +59,6 @@ function SidebarMenuController(){
     }
 
     onMenuClick = (event) => {
-        console.log(event)
         
         document.dispatchEvent(new CustomEvent("menu-event", {
             'detail': {

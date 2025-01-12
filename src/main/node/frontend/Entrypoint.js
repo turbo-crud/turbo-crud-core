@@ -2,6 +2,7 @@ const SidebarMenuController = require("./SidebarMenuController.js");
 const SystemApiClient = require("./SystemApiClient.js");
 const GenericCrudApiClient = require("./GenericCrudApiClient.js");
 const DashboardController = require("./DashboardController.js");
+const GenericCrudController = require("./GenericCrudController.js");
 const BaseCrudHome = require("./templates/BaseCrudHome.html");
 
 var formsMetadata = {
@@ -35,54 +36,31 @@ var formsMetadata = {
 };
 
 document.addEventListener("DOMContentLoaded", async function (event) {
-    console.log("Frontend starting...");
+    console.log("Frontend engine: start");
 
     handlebarsSetup();
 
-    var _CONTEXT = {};
-
-
-
+    //instantiation
     var sidebarMenuController = new SidebarMenuController();
     var dashboardController = new DashboardController();
     var systemApiClient = new SystemApiClient();
+    var genericCrudApiClient = new GenericCrudApiClient();
+    var genericCrudController = new GenericCrudController();
+    var baseCrudHome = new BaseCrudHome();
 
-    document.addEventListener("menu-event", menuRouter);
+    //setup
+    genericCrudController.setup(genericCrudApiClient, formsMetadata, baseCrudHome);
+    dashboardController.setup(systemApiClient);
+    sidebarMenuController.setup(systemApiClient);
 
-    dashboardController.start(systemApiClient);
-
-    await sidebarMenuController.start(systemApiClient);
+    //start
+    genericCrudController.start();
+    dashboardController.start();
+    await sidebarMenuController.start();
 
 });
 
-function menuRouter(e) {
-    var menuName = e.detail.name;
-    console.log(`menuName: ${menuName}`);
 
-    var entityInfo = formsMetadata.entities.find(x => x.name === menuName);
-    console.log(JSON.stringify(entityInfo))
-
-    var html = new BaseCrudHome().rawHtml();
-
-    var template = Handlebars.compile(html);
-
-    var result = template(entityInfo);
-
-    document.getElementById("mainContent").innerHTML = result;
-    addListeners(entityInfo);
-
-    $(`#table_search_result_${entityInfo.name}`).DataTable();
-}
-
-function addListeners(entityInfo){
-  var genericCrudApiClient = new GenericCrudApiClient();
-  var searchButton = document.getElementById(`search_button_${entityInfo.name}`);
-  searchButton.addEventListener("click", genericSearch); 
-}
-
-function genericSearch(){
-  console.log("search...")
-}
 
 function handlebarsSetup(){
   Handlebars.registerHelper('switch', function(value, options) {

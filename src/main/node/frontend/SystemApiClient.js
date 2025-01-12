@@ -1,10 +1,10 @@
 function SystemApiClient(){
 
-    this.getMenuSimpleEndpoint = "/system/menu";
+    this.getUiSettingsEndpoint = "/system/ui-settings";
     this.getSimpleStatsEndpoint = "/system/stats";
 
-    this.getMenuSimpleList = async () => {
-        var resHttp = await fetch(this.getMenuSimpleEndpoint);
+    this.getUiSettings = async () => {
+        var resHttp = await fetch(this.getUiSettingsEndpoint);
         var json = await resHttp.json();
 
         return json.data.results

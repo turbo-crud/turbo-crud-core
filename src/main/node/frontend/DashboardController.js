@@ -1,7 +1,13 @@
 function DashboardController(){
     
-    this.start = async (systemApiClient) => {
-        var stats = await systemApiClient.getSimpleStats();    
+    this.systemApiClient;
+
+    this.setup = async (systemApiClient) => {
+        this.systemApiClient = systemApiClient;
+    }
+
+    this.start = async () => {
+        var stats = await this.systemApiClient.getSimpleStats();    
     }
 
 }
