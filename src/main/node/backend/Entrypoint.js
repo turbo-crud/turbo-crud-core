@@ -109,7 +109,8 @@ function Entrypoint() {
 
         var bundler = new Bundler();
         var frontendEntrypointFileContent = 
-            await bundler.execute(path.join(frontendControllersAbsoluteLocation, "Entrypoint.js"),frontendControllersAbsoluteLocation);
+            await bundler.buildEntrypoint(path.join(frontendControllersAbsoluteLocation, "Entrypoint.js"),frontendControllersAbsoluteLocation);
+        await bundler.buildIndex({siteFolderLocation, frameworkOptions})
 
         await fs.promises.writeFile(path.join(siteFolderLocation, "Entrypoint.js"), frontendEntrypointFileContent);
 

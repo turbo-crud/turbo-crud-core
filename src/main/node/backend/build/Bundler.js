@@ -1,15 +1,26 @@
 const fs = require("fs");
 const path = require("path");
+const Handlebars = require('handlebars');
 
 function Bundler() {
 
-    this.execute = async (entryPointFileabsolutePath, frontendFolder) => {
+    this.buildEntrypoint = async (entryPointFileabsolutePath, frontendFolder) => {
         var rawEntrypointContent = await fs.promises.readFile(entryPointFileabsolutePath, "utf8");
-
         var requireMatches = rawEntrypointContent.match(/const\s*\w+\s*=\s*require\(".+"\);/g);
         var entrypointContent = await injectRequireSentences(requireMatches, entryPointFileabsolutePath, frontendFolder, rawEntrypointContent);
         return entrypointContent;
+    }
 
+    this.buildIndex = async (params) => {
+        var siteFolderLocation = params.siteFolderLocation;
+        var frameworkOptions = params.frameworkOptions;
+
+        var indexHtmlLocation = path.join(siteFolderLocation, "index.html");
+        var rawIndexContent = await fs.promises.readFile(indexHtmlLocation, "utf8");
+        var indexTemplate = Handlebars.compile(rawIndexContent);
+        var renderedHtml = indexTemplate(frameworkOptions);
+        //update index page
+        await fs.promises.writeFile(indexHtmlLocation, renderedHtml);
     }
 
     async function injectRequireSentences(requireMatches, entryPointFileabsolutePath, frontendFolder, rawEntrypointContent){

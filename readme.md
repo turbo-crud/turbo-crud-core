@@ -183,3 +183,29 @@ Error
 
 $.notify("BOOM!", "error");
 
+## todo
+
+- edit
+- progress bar
+
+
+## sandbox
+
+   var requiredhatAreMissingCount = 0;
+    var fieldsToCreate = {};
+    for(var field of entityInfo.fields){
+      let expectedHtmlElementId = `create_form_field_${entityInfo.name}_${field.name}`;
+      var htmlElement = document.getElementById(expectedHtmlElementId);
+      if (htmlElement.value != "") {
+        fieldsToCreate[field.name] = htmlElement.value;
+      }else{
+        if(field.required ===true){
+          requiredhatAreMissingCount++;
+        }
+      }
+    }
+    
+    if(requiredhatAreMissingCount>0){
+      $.notify("Please fill the required fields and try again", "error");
+      return;
+    }

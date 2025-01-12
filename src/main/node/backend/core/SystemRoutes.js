@@ -15,7 +15,7 @@ function SystemRoutes(){
     }
 
     this.uiSettings = (req, res)  => {
-        return res.json(HttpHelper.ok(this.entities));
+        return res.json(HttpHelper.ok( {entities: this.entities}));
     }
 
     this.stats = (req, res)  => {

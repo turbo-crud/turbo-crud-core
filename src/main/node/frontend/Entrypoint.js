@@ -3,42 +3,17 @@ const SystemApiClient = require("./SystemApiClient.js");
 const GenericCrudApiClient = require("./GenericCrudApiClient.js");
 const DashboardController = require("./DashboardController.js");
 const GenericCrudController = require("./GenericCrudController.js");
+const NotificationController = require("./NotificationController.js");
+const UiContext = require("./UiContext.js");
 const BaseCrudHome = require("./templates/BaseCrudHome.html");
-
-var formsMetadata = {
-  "entities": [
-    {
-      "name": "Patient",
-      "icon": "bx-user",
-      "label": "Paciente",
-      "fields": [
-        {
-          "name": "firstName",
-          "type": "string",
-          "unique": true,
-          "required": true
-        },
-        {
-          "name": "email",
-          "type": "string",
-          "unique": true,
-          "required": true
-        },
-        {
-          "name": "address",
-          "type": "string",
-          "unique": true,
-          "required": true
-        }
-      ]
-    }
-  ]
-};
+const CreateForm = require("./templates/CreateForm.html");
 
 document.addEventListener("DOMContentLoaded", async function (event) {
     console.log("Frontend engine: start");
 
     handlebarsSetup();
+
+
 
     //instantiation
     var sidebarMenuController = new SidebarMenuController();
@@ -47,11 +22,16 @@ document.addEventListener("DOMContentLoaded", async function (event) {
     var genericCrudApiClient = new GenericCrudApiClient();
     var genericCrudController = new GenericCrudController();
     var baseCrudHome = new BaseCrudHome();
+    var createForm = new CreateForm();
+    var uiContext = new UiContext();
+    var notificationController = new NotificationController();
 
     //setup
-    genericCrudController.setup(genericCrudApiClient, formsMetadata, baseCrudHome);
+    genericCrudController.setup(genericCrudApiClient, uiContext, baseCrudHome, createForm,
+      notificationController
+    );
     dashboardController.setup(systemApiClient);
-    sidebarMenuController.setup(systemApiClient);
+    sidebarMenuController.setup(systemApiClient, uiContext);
 
     //start
     genericCrudController.start();

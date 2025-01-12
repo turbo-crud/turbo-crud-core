@@ -1,0 +1,35 @@
+<h4 id="notify-container" class="c-grey-900 mT-10 mB-30"></h4>
+<h4 class="c-grey-900 mT-10 mB-30">{{name}}</h4>
+
+<div class="alert alert-light" id="crud_nav_bar">
+  <button class="btn btn-primary btn-color" id="back_create_button_{{@root.name}}" entity-name="{{@root.name}}">&lt;
+    Back</button>
+</div>
+
+<div class="alert alert-light">
+  <div class="mT-30">
+    <form id="create_form_{{@root.name}}" class="container">
+      {{#each fields}}
+      {{#compare type '==' 'string' }}
+      <div class="mb-3 col-md-6">
+        <label class="form-label" for="create_form_field_{{@root.name}}_{{name}}">{{name}}</label>
+        <input type="text" class="form-control" id="create_form_field_{{@root.name}}_{{name}}" required="{{required}}" >
+      </div>
+      {{/compare}}
+      {{#compare type '==' 'number' }}
+      <div class="mb-3 col-md-6">
+        <label class="form-label" for="create_form_field_{{@root.name}}_{{name}}">{{name}}</label>
+        <input type="text" class="form-control" id="create_form_field_{{@root.name}}_{{name}}" required="{{required}}">
+      </div>
+      {{/compare}}
+      {{/each}}
+
+      <div class="">
+        <button id="create_button_{{@root.name}}" entity-name="{{@root.name}}"
+          class="btn btn-primary btn-color">Save</button>
+      </div>
+    </form>
+
+  </div>
+
+</div>

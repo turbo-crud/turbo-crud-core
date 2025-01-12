@@ -16,7 +16,7 @@ function AutoRouterRegister() {
         }
 
         await item.save();
-        res.send("Data inserted");
+        res.json(ok());
       });
 
       expressInstance.post(`/api/${entity.name}/query`, async function (req, res) {
@@ -50,6 +50,15 @@ function AutoRouterRegister() {
           "code": 400100,
           "message": message || "The request could not be understood by the server due to malformed syntax"
       } 
+    }
+  }
+
+  function ok(){
+    return {
+      "metadata": {
+          "code": 200000,
+          "message": "success"
+      }  
     }
   }
 

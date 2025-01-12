@@ -1,13 +1,19 @@
 function GenericCrudController() {
 
   this.genericCrudApiClient;
-  this.formsMetadata;
+  this.uiContext;
   this.baseCrudHome;
+  this.createForm;
+  this.notificationController;
 
-  this.setup = (genericCrudApiClient, formsMetadata, baseCrudHome) => {
+  this.setup = (genericCrudApiClient, uiContext, baseCrudHome, createForm, 
+    notificationController
+  ) => {
     this.genericCrudApiClient = genericCrudApiClient;
-    this.formsMetadata = formsMetadata;
+    this.uiContext = uiContext;
     this.baseCrudHome = baseCrudHome;
+    this.createForm = createForm;
+    this.notificationController = notificationController;
   }
 
   this.start = () => {
@@ -18,7 +24,7 @@ function GenericCrudController() {
     var menuName = e.detail.name;
     console.log(`menuName: ${menuName}`);
 
-    var entityInfo = this.formsMetadata.entities.find(x => x.name === menuName);
+    var entityInfo = this.uiContext.getUiSettings().entities.find(x => x.name === menuName);
 
     var html = this.baseCrudHome.rawHtml();
 
@@ -27,29 +33,36 @@ function GenericCrudController() {
     var result = template(entityInfo);
 
     document.getElementById("mainContent").innerHTML = result;
-    addListeners(entityInfo);
+    addHomeListeners(entityInfo);
 
     $(`#table_search_result_${entityInfo.name}`).DataTable();
   }
 
-  addListeners = (entityInfo) => {
+  addHomeListeners = (entityInfo) => {
 
     var searchButton = document.getElementById(`search_button_${entityInfo.name}`);
     searchButton.addEventListener("click", genericSearch);
 
+    var showCreateFormButton = document.getElementById(`show_create_form_button_${entityInfo.name}`);
+    showCreateFormButton.addEventListener("click", showCreateForm);
   }
 
   genericSearch = async (event) => {
     console.log("search...");
 
+    this.notificationController.clear(); 
+    
     var entityName = event.target.getAttribute("entity-name");
 
-    if(!entityName){
+    let table = $(`#table_search_result_${entityName}`).DataTable();
+    table.clear().draw();
+
+    if (!entityName) {
       console.log("Failed to get the entity name from search button");
       return;
     }
-    
-    var entityInfo = this.formsMetadata.entities.find(x => x.name === entityName);
+
+    var entityInfo = this.uiContext.getUiSettings().entities.find(x => x.name === entityName);
 
     var queryFields = [];
     let filledFields = 0;
@@ -59,41 +72,122 @@ function GenericCrudController() {
 
       let expectedHtmlElementId = `search_field_${entityInfo.name}_${field.name}`;
       var htmlElement = document.getElementById(expectedHtmlElementId);
-      if (htmlElement.value!="") {
+      if (htmlElement.value != "") {
         queryFields.push({ name: field.name, value: htmlElement.value });
         filledFields++;
       }
     }
 
-    if(filledFields==0){
-      $.notify("Warning: Search needs at least one field", "warn");
-      return;
+    if (filledFields == 0) {
+      this.notificationController.showWarning("Search needs at least one field");     
     }
-
-    let table = $(`#table_search_result_${entityInfo.name}`).DataTable();
-    table.clear().draw();
 
     var result = await this.genericCrudApiClient.simpleAndFind(entityName, queryFields);
     console.log(result);
 
-    if(result.metadata.code !== 200000){
+    if (result.metadata.code !== 200000) {
       console.log("Failed to perform a the search")
       console.log(result.metadata.message);
       return;
     }
 
-    if(!result.data || !result.data.results || result.data.results.length === 0){
+    if (!result.data || !result.data.results || result.data.results.length === 0) {
       console.log("Searche returned 0 rows")
       return;
     }
 
-    for(var rowToAdd of result.data.results){
+    for (var rowToAdd of result.data.results) {
       let values = Object.values(rowToAdd);
       table.row
-      .add(values)
-      .draw(false);  
+        .add(values)
+        .draw(false);
     }
-  
+
   }
 
+  showCreateForm = async (event) => {
+    console.log("Show create form")
+    var entityName = event.target.getAttribute("entity-name");
+
+    if (!entityName) {
+      console.log("Failed to get the entity name from show create form button");
+      return;
+    }
+
+    var entityInfo = this.uiContext.getUiSettings().entities.find(x => x.name === entityName);
+
+    var html = this.createForm.rawHtml();
+    var template = Handlebars.compile(html);
+
+    var result = template(entityInfo);
+
+    document.getElementById("mainContent").innerHTML = result;
+    addCreateFormListeners(entityInfo);
+  }
+
+  addCreateFormListeners = (entityInfo) => {
+    var backButton = document.getElementById(`back_create_button_${entityInfo.name}`);
+    backButton.addEventListener("click", genericBack);
+
+    var createButton = document.getElementById(`create_button_${entityInfo.name}`);
+    createButton.addEventListener("click", genericCreate);
+  }
+
+  genericBack = async (event) => {
+    var entityName = event.target.getAttribute("entity-name");
+    //we emit the same event of menu to force a clean home render
+    document.dispatchEvent(new CustomEvent("menu-event", {
+      'detail': {
+        name: entityName
+      }
+    }));
+  }
+
+  genericCreate = async (event) => {
+    this.notificationController.clear();
+
+    var entityName = event.target.getAttribute("entity-name");
+
+    var form = $(`#create_form_${entityName}`)[0];
+    if (!form.checkValidity()){
+      this.notificationController.showError("Please fill the required fields and try again");
+      form.classList.add('was-validated');
+      return;
+    }
+
+    //required files exist
+
+    //validate required fields
+    var entityInfo = this.uiContext.getUiSettings().entities.find(x => x.name === entityName);
+    
+    var requiredhatAreMissingCount = 0;
+    var fieldsToCreate = {};
+    for(var field of entityInfo.fields){
+      let expectedHtmlElementId = `create_form_field_${entityInfo.name}_${field.name}`;
+      var htmlElement = document.getElementById(expectedHtmlElementId);
+      if (htmlElement.value != "") {
+        fieldsToCreate[field.name] = htmlElement.value;
+      }else{
+        if(field.required ===true){
+          requiredhatAreMissingCount++;
+        }
+      }
+    }
+    
+    if(requiredhatAreMissingCount>0){
+      this.notificationController.showError("Please fill the required fields and try again");
+      return;
+    }
+
+    var response = await this.genericCrudApiClient.simpleCreate(entityName, fieldsToCreate);
+    console.log(JSON.stringify(response))
+    if (response.metadata.code !== 200000) {
+      console.log(response.metadata.message);
+      this.notificationController.showError(response.metadata.message);
+      return;
+    }
+
+    this.notificationController.showSuccess(`${entityName} created`);
+    form.reset();
+  }
 }
