@@ -1,4 +1,4 @@
-site_name: Acme Corp
+site_name: Oftalaser
 description: A ultra minimalistic headless cms
 home_banner_image_url: >-
   https://github.com/podcastjs/podcastjs/assets/3322836/0d8bdbf1-78f0-4728-bcf4-6a6a25487dfe
@@ -23,13 +23,99 @@ entities:
   fields:
   - name: firstName
     type: string
-    unique: true
+    unique: false
     required: true
+  - name: additionalFirstName
+    type: string
+    unique: false
+    required: false
+  - name: lastName
+    type: string
+    unique: false
+    required: true        
+  - name: additionalLastName
+    type: string
+    unique: false
+    required: false  
+  - name: dni
+    type: string
+    unique: true
+    required: true      
   - name: email
     type: string
     unique: true
-    required: true
+    required: false
+  - name: genre
+    type: string
+    unique: false
+    required: true    
+  - name: phone
+    type: string
+    unique: false
+    required: false    
   - name: address
     type: string
     unique: true
     required: true
+
+- name: Examen
+  icon: ti-clipboard
+  label: Examen
+  fields:
+  - name: userId
+    type: string
+    unique: false
+    required: true
+  - name: date
+    type: string
+    unique: false
+    required: true
+  - name: creationDate
+    type: string
+    unique: false
+    required: false
+  - name: receiptDate
+    type: string
+    unique: false
+    required: false   
+  - name: providerId
+    type: string
+    unique: false
+    required: false 
+  - name: attachment
+    type: string
+    unique: false
+    required: false   
+  - name: findingsSummary
+    type: string
+    unique: false
+    required: false  
+  - name: diagnosisSummary
+    type: string
+    unique: false
+    required: false             
+
+- name: Appointment
+  icon: ti-calendar
+  label: Cita
+  fields:
+  - name: userId
+    type: string
+    unique: false
+    required: true
+  - name: date
+    type: string
+    unique: false
+    required: true      
+  - name: time
+    type: string
+    unique: false
+    required: true    
+  - name: doctorId
+    type: string
+    unique: false
+    required: true    
+  - name: reason
+    type: string
+    unique: false
+    required: true       

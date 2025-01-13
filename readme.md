@@ -166,6 +166,14 @@ masonry
 change jQuery by $ in theme/notify.min.js
 
 https://github.com/codewithkyle/notifyjs
+https://notifyjs.jpillora.com/
+https://handlebarsjs.com/examples/builtin-helper-if-block.html
+
+https://colorlib.com/polygon/adminator/forms.html
+
+https://www.openxava.org/invoicedemo/m/Customer
+
+https://themify.me/themify-icons
 
 Success
 

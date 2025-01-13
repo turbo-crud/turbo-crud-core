@@ -83,11 +83,10 @@ function GenericCrudController() {
     }
 
     var result = await this.genericCrudApiClient.simpleAndFind(entityName, queryFields);
-    console.log(result);
-
+    
     if (result.metadata.code !== 200000) {
       console.log("Failed to perform a the search")
-      console.log(result.metadata.message);
+      console.log(JSON.stringify(result));
       return;
     }
 
@@ -180,9 +179,9 @@ function GenericCrudController() {
     }
 
     var response = await this.genericCrudApiClient.simpleCreate(entityName, fieldsToCreate);
-    console.log(JSON.stringify(response))
+    
     if (response.metadata.code !== 200000) {
-      console.log(response.metadata.message);
+      console.log(JSON.stringify(response));
       this.notificationController.showError(response.metadata.message);
       return;
     }

@@ -21,6 +21,20 @@ function TurboCrudBackendEngine() {
         autoRouterRegister.start(options.entities, models, expressInstance);   
         systemRoutes.start(options.entities, expressInstance);   
 
+
+        var route, routes = [];
+
+        expressInstance._router.stack.forEach(function(middleware){
+            if(middleware.route){ // routes registered directly on the app
+                routes.push(middleware.route.path+" # "+Object.keys(middleware.route.methods)[0].toUpperCase());
+            } else if(middleware.name === 'router'){ // router middleware 
+                middleware.handle.stack.forEach(function(handler){
+                    route = handler.route;
+                    route && routes.push(route.path+" # "+Object.keys(middleware.route.methods)[0].toUpperCase());
+                });
+            }
+        });        
+        console.log("routes", routes)
     };
 
 }
