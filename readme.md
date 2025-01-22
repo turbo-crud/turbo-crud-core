@@ -217,3 +217,39 @@ $.notify("BOOM!", "error");
       $.notify("Please fill the required fields and try again", "error");
       return;
     }
+## Todo
+
+missing field of search should be have an empty string as value
+
+search... Entrypoint.js:190:13
+[
+    {
+        "firstName": "Lizeth",
+        "lastName": "Weller",
+        "additionalLastName": "Doe",
+        "dni": "51654564",
+        "email": "mail3@mail.com",
+        "genre": "F",
+        "phone": "95464",
+        "address": "Lima2"
+    }
+] Entrypoint.js:237:13
+search... Entrypoint.js:190:13
+[
+    {
+        "firstName": "Milagros",
+        "additionalFirstName": "Jane",
+        "lastName": "Doe",
+        "additionalLastName": "Weller",
+        "dni": "545187521",
+        "email": "mail@mail.com",
+        "genre": "F",
+        "phone": "9997564687",
+        "address": "Lima"
+    }
+]
+
+edit
+login
+- columns for search fields/ table view / full details view
+

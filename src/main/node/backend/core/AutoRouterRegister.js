@@ -16,8 +16,14 @@ function AutoRouterRegister() {
         item[fieldName] = req.body[fieldName];
       }
 
-      await item.save();
-      res.json(ok());
+      try{
+        await item.save();
+        res.json(ok());
+      }catch(err){
+        console.log(err);
+        return res.json(internalError("Search needs at least one parameter"));
+      }
+
     });
 
     expressInstance.post(`/api/:entity_name/query`, async function (req, res) {
@@ -50,6 +56,16 @@ function AutoRouterRegister() {
       "metadata": {
           "code": 400100,
           "message": message || "The request could not be understood by the server due to malformed syntax"
+      } 
+    }
+  }
+
+
+  function internalError(message){
+    return {
+      "metadata": {
+          "code": 500100,
+          "message": message || "Internal error. Try again."
       } 
     }
   }

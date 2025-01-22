@@ -22,40 +22,49 @@ entities:
   label: Paciente
   fields:
   - name: firstName
+    label: Primer Nombre
     type: string
     unique: false
     required: true
   - name: additionalFirstName
+    label: Segundo Nombre
     type: string
     unique: false
     required: false
   - name: lastName
+    label: Apellido Paterno    
     type: string
     unique: false
     required: true        
   - name: additionalLastName
+    label: Apellido Materno    
     type: string
     unique: false
     required: false  
   - name: dni
+    label: Documento de identidad    
     type: string
     unique: true
     required: true      
   - name: email
+    label: Correo    
     type: string
     unique: true
     required: false
   - name: genre
+    label: Sexo    
     type: string
     unique: false
     required: true    
   - name: phone
+    label: Telefono    
     type: string
     unique: false
     required: false    
   - name: address
+    label: Direccion    
     type: string
-    unique: true
+    unique: false
     required: true
 
 - name: Examen
@@ -63,34 +72,37 @@ entities:
   label: Examen
   fields:
   - name: userId
+    label: Paciente
     type: string
     unique: false
     required: true
-  - name: date
-    type: string
-    unique: false
-    required: true
-  - name: creationDate
+  - name: collectionDate
+    label: Fecha de Muestra
     type: string
     unique: false
     required: false
   - name: receiptDate
+    label: Fech del Resultado
     type: string
     unique: false
     required: false   
   - name: providerId
+    label: Laboratorio
     type: string
     unique: false
     required: false 
   - name: attachment
+    label: Documento Adjunto
     type: string
     unique: false
     required: false   
   - name: findingsSummary
+    label: Resumen de Hallazgos
     type: string
     unique: false
     required: false  
   - name: diagnosisSummary
+    label: Resumen del Diagnostico
     type: string
     unique: false
     required: false             
@@ -100,22 +112,27 @@ entities:
   label: Cita
   fields:
   - name: userId
+    label: Paciente
     type: string
     unique: false
     required: true
   - name: date
+    label: Dia
     type: string
     unique: false
     required: true      
   - name: time
+    label: Hora
     type: string
     unique: false
     required: true    
   - name: doctorId
+    label: Doctor
     type: string
     unique: false
     required: true    
   - name: reason
+    label: Razon de la cita
     type: string
     unique: false
     required: true       

@@ -1,5 +1,5 @@
 <h4 id="notify-container" class="c-grey-900 mT-10 mB-30"></h4>
-<h4 class="c-grey-900 mT-10 mB-30">{{name}}</h4>
+<h4 class="c-grey-900 mT-10 mB-30">{{label}}</h4>
 
 <div class="alert alert-light" id="crud_nav_bar">
   <button class="btn btn-primary btn-color" id="back_create_button_{{@root.name}}" entity-name="{{@root.name}}">&lt;
@@ -12,9 +12,9 @@
       {{#each fields}}
       {{#compare type '==' 'string' }}
       <div class="mb-3 row">
-        <label for="create_form_field_{{@root.name}}_{{name}}" class="form-label col-sm-2 col-form-label">{{name}}</label>
+        <label for="create_form_field_{{@root.name}}_{{name}}" class="form-label col-sm-2 col-form-label">{{label}}</label>
         <div class="col-sm-10">
-          <input type="text" class="form-control" id="create_form_field_{{@root.name}}_{{name}}" required="{{required}}">
+          <input type="text" class="form-control" id="create_form_field_{{@root.name}}_{{name}}" {{#compare required '===' true }} required  {{/compare}}>
         </div>
       </div>      
       {{/compare}}
