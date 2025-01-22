@@ -72,14 +72,15 @@ function GenericCrudController() {
 
       let expectedHtmlElementId = `search_field_${entityInfo.name}_${field.name}`;
       var htmlElement = document.getElementById(expectedHtmlElementId);
-      if (htmlElement.value != "") {
+      if (htmlElement.value != "" && htmlElement.value.length>=3) {
         queryFields.push({ name: field.name, value: htmlElement.value });
         filledFields++;
       }
     }
 
     if (filledFields == 0) {
-      this.notificationController.showWarning("Search needs at least one field");     
+      this.notificationController.showWarning("Search needs at least one field with 3 characters");   
+      return;  
     }
 
     var result = await this.genericCrudApiClient.simpleAndFind(entityName, queryFields);
