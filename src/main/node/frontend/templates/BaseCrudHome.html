@@ -11,7 +11,7 @@
   <div class="row">
     {{#each fields}}
       {{#compare type '==' 'string'  }} 
-      <div class="mb-3 col-md-6">
+      <div class="mb-3 col-md-3">
         <input type="text" class="form-control" id="search_field_{{@root.name}}_{{name}}" placeholder="{{label}}">
       </div>      
       {{/compare}}

@@ -116,8 +116,18 @@ function GenericCrudController() {
     console.log(JSON.stringify(result.data.results, null, 4))
 
     for (var rowFound of result.data.results) {
+
+      let fixedRowToAdd = {}
+      for(let expectedField of entityInfo.fields){
+        if(typeof rowFound[expectedField.name] === 'undefined'){
+          fixedRowToAdd[expectedField.name] = "";
+        }else{
+          fixedRowToAdd[expectedField.name] = rowFound[expectedField.name];
+        }        
+      }
+
       table.row
-        .add(rowFound)
+        .add(fixedRowToAdd)
         .draw(false);
     }
 
