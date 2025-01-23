@@ -96,6 +96,7 @@ entities:
     type: string
     unique: false
     required: false   
+    viewer: pdf
   - name: findingsSummary
     label: Resumen de Hallazgos
     type: string
@@ -135,4 +136,74 @@ entities:
     label: Razon de la cita
     type: string
     unique: false
-    required: true       
+    required: true    
+  - name: status
+    label: Estatus
+    type: string
+    unique: false
+    required: false
+
+- name: Staff
+  icon: ti-headphone-alt
+  label: Personal
+  fields:
+  - name: category
+    label: Categoria
+    type: string
+    unique: false
+    required: true  
+  - name: firstName
+    label: Primer Nombre
+    type: string
+    unique: false
+    required: true
+  - name: additionalFirstName
+    label: Segundo Nombre
+    type: string
+    unique: false
+    required: false
+  - name: lastName
+    label: Apellido Paterno    
+    type: string
+    unique: false
+    required: true        
+  - name: additionalLastName
+    label: Apellido Materno    
+    type: string
+    unique: false
+    required: false  
+  - name: dni
+    label: Documento de identidad    
+    type: string
+    unique: true
+    required: true      
+  - name: email
+    label: Correo    
+    type: string
+    unique: true
+    required: false
+  - name: genre
+    label: Sexo    
+    type: string
+    unique: false
+    required: true    
+  - name: phone
+    label: Telefono    
+    type: string
+    unique: false
+    required: false    
+  - name: address
+    label: Direccion    
+    type: string
+    unique: false
+    required: true 
+  - name: speciality
+    label: Especialidad    
+    type: string
+    unique: false
+    required: true
+  - name: code
+    label: Codigo CMP
+    type: string
+    unique: false
+    required: true    

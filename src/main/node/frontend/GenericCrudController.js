@@ -35,7 +35,24 @@ function GenericCrudController() {
     document.getElementById("mainContent").innerHTML = result;
     addHomeListeners(entityInfo);
 
-    $(`#table_search_result_${entityInfo.name}`).DataTable();
+    var datatableColumnsConfig = [];
+
+    for (var field of entityInfo.fields) {
+      let config = {};
+      config["data"] = field.name;
+
+      if(field.viewer && field.viewer === "pdf"){
+        config["render"] = renderPdf;
+      }
+
+      datatableColumnsConfig.push(config);
+    }
+
+    $(`#table_search_result_${entityInfo.name}`).DataTable({columns: datatableColumnsConfig});
+  }
+
+  function renderPdf(data, type, full, meta) {
+    return `<a href="${data}" target=_blank > <img src="assets/static/images/pdf_icon.png" width="25"></a>`;
   }
 
   addHomeListeners = (entityInfo) => {
@@ -99,20 +116,8 @@ function GenericCrudController() {
     console.log(JSON.stringify(result.data.results, null, 4))
 
     for (var rowFound of result.data.results) {
-
-      let fixedRowToAdd = {}
-      for(let expectedField of entityInfo.fields){
-        if(typeof rowFound[expectedField.name] === 'undefined'){
-          fixedRowToAdd[expectedField.name] = "";
-        }else{
-          fixedRowToAdd[expectedField.name] = rowFound[expectedField.name];
-        }
-        
-      }
-
-      let values = Object.values(fixedRowToAdd);
       table.row
-        .add(values)
+        .add(rowFound)
         .draw(false);
     }
 

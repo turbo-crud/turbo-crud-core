@@ -253,3 +253,22 @@ edit
 login
 - columns for search fields/ table view / full details view
 
+for simple columns
+
+    for (var rowFound of result.data.results) {
+
+      // let fixedRowToAdd = {}
+      // for(let expectedField of entityInfo.fields){
+      //   if(typeof rowFound[expectedField.name] === 'undefined'){
+      //     fixedRowToAdd[expectedField.name] = "";
+      //   }else{
+      //     fixedRowToAdd[expectedField.name] = rowFound[expectedField.name];
+      //   }
+        
+      // }
+
+      // let values = Object.values(fixedRowToAdd);
+      table.row
+        .add(rowFound)
+        .draw(false);
+    }
