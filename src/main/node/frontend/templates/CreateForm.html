@@ -18,11 +18,14 @@
         </div>
       </div>      
       {{/compare}}
-      {{#compare type '==' 'number' }}
+      {{#compare type '==' 'date' }}
       <div class="mb-3 row">
-        <label for="create_form_field_{{@root.name}}_{{name}}" class="form-label col-sm-2 col-form-label">{{name}}</label>
-        <div class="col-sm-10">
-          <input type="text" class="form-control" id="create_form_field_{{@root.name}}_{{name}}" required="{{required}}">
+        <label for="create_form_field_{{@root.name}}_{{name}}" class="form-label col-sm-2 col-form-label">{{label}}</label>
+        <div class="timepicker-input input-icon mb-3">
+          <div class="input-group-text bgc-white bd bdwR-0">
+            <i class="ti-calendar"></i>
+          </div>
+          <input type="text" class="form-control bdc-grey-200 start-date" id="create_form_field_{{@root.name}}_{{name}}" placeholder="Datepicker" data-provide="datepicker" {{#compare required '===' true }} required  {{/compare}} >
         </div>
       </div> 
       {{/compare}}

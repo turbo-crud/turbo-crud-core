@@ -119,7 +119,7 @@ entities:
     required: true
   - name: date
     label: Dia
-    type: string
+    type: date
     unique: false
     required: true      
   - name: time
