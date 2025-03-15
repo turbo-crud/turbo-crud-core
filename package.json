@@ -31,7 +31,7 @@
     "webpack-cli": "^6.0.1"
   },
   "scripts": {
-    "dev_ini": "nodemon --watch src --watch theme  --watch webpage -e js,md,html,css --watch ./fp-admin.yaml --ignore foo.json src/main/node/Index.js --start",
+    "start": "node src/main/node/backend/Index.js --start",
     "dev": "nodemon --watch src --watch theme  --watch webpage -e js,md,html,css --watch ./fp-admin.yaml --ignore foo.json src/main/node/backend/Index.js --start",
     "publish": "node src/main/node/backend/Index.js --publish",
     "test": "nyc --reporter=html --reporter=json-summary mocha  'src/test/node/**/*.test.js' --exit --require mocha-suppress-logs && npm run badges",

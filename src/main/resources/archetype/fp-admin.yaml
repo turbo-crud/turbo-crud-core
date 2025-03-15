@@ -11,10 +11,10 @@ about_us_paragraph: A site to share our day-to-day about TurboCrud
 phone: + 123 456 789
 
 database:
-  domain: localhost:27017
-  db: TurboCrud
-  user: jane
-  password: changeme
+  domain: host.docker.internal:27017
+  db: turbocrud_db
+  user: usr_turbocrud
+  password: kXXEo3FD-6yVoW_0f4Vh
 
 entities:
 - name: Patient
